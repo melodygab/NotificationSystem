@@ -21,6 +21,6 @@ Pushing to Github (Without Branches/Pulls):
 - `git push origin master` will send your changes to Github.
 
 Updating Your Repository:
--`git pull` will update your local repository to the current version.
--`git stash` will save your changes if you made any after a new version was pushed.
+- `git pull` will update your local repository to the current version.
+- `git stash` will save your changes if you made any after a new version was pushed.
 
