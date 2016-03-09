@@ -13,7 +13,7 @@ Part of NJIT's Senior Capstone (2016), the objective is to create a service that
 2. [Add the new SSH key to Github](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-mac)
 
 ##Using Git
-A small flavour of Git commands: 
+A small flavour of Git commands. 
 
 Pushing to Github (Without Branches/Pulls): 
 - `git add -A` will stage all the files you changed so that you can commit them (next command).
