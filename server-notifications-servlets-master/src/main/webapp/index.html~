@@ -49,7 +49,6 @@ bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxs
           <p>In the event that our CSV fails to include someone as a late addition, any user can send a notification message.</p>
 	  <form method="post" action="/emergency" enctype="multipart/form-data">
 		  <div class="form-group">
-			<label for="name">Name:</label>
 			<input type="text" class="form-control" name="name">
 		  </div>
 		  <div class="form-group">

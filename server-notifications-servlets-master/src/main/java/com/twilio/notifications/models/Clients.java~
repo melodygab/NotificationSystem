@@ -41,7 +41,7 @@ public class Clients {
         this.courtDate = courtDate;
     }    
 
-    public String getCourtDate() {
+    public String courtDate() {
         return courtDate;
     }
 }

@@ -25,12 +25,8 @@ public class NotificationFilter implements Filter {
         } catch (Throwable throwable) {
             ArrayList<Clients> clients = new Repository().getClients();
             for(int i =0; i < clients.size(); i++) {
-                try{
-			String message = customMessage(clients.get(i).getCourtDate(), throwable.getMessage());
-			new Client().sendMessage(clients.get(i).getPhoneNumber(), message);
-		}catch (ParseException e){
-			
-		}
+                String message = customMessage(clients.get(i).getCourtDate(), throwable.getMessage());
+		new Client().sendMessage(clients.get(i).getPhoneNumber(), message);
             }
         }
     }
