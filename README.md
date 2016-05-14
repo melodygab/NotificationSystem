@@ -1,26 +1,38 @@
 #Client Court - Notification System
 
 ##Description
-Part of NJIT's Senior Capstone (2016), the objective is to create a service that will send SMS-notifications to user's phones informing them of important dates.
+Part of NJIT's Senior Capstone (2016), this web application sends daily notifications and records analytics on the messages sent. 
 
 ##Technologies and Tools
 
-- [.NET](https://www.microsoft.com/net): Server Language
+- [Node.JS](https://nodejs.org): Server Language
+- [Express.js](http://expressjs.com/): Web Server Framework
 - [Twilio](https://www.twilio.com/): SMS API
+- [NodeScheduler]: CRON-like Scheduling API
+- [Bootstrap](https://www.getbootstrap.com/): Front-End Framework
+- [Charts](https://developers.google.com/chart/): Chart/Analytics API
 
-##Getting Started with Git
-1. Create an SSH key. Run `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`
-2. [Add the new SSH key to Github](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-mac)
+##Installation Instructions
+1. [Download](https://nodejs.org/en/download/) and Install Node.JS for the Server/Machine (follow the wizard).
+2. Open Command Line in the project folder.
+3. Run `npm start` in the command line.
+4. Done! (Note : Command Line window must remain open on windows machines for automatic reminders to occur)
 
-##Using Git
-A small flavour of Git commands. 
+-On your machine, you can access the dashboard by typing localhost:3005 into your browser. With windows sharing, other people on your local network will be able to access it with "computer name":3005, where "computer name" is your machine's name (found in Windows System Information).
 
-Pushing to Github (Without Branches/Pulls): 
-- `git add -A` will stage all the files you changed so that you can commit them (next command).
-- `git commit -m 'summary of what you changed'` will save the changes.
-- `git push origin master` will send your changes to Github.
+##Twilio Instructions
+1. [Register](https://www.twilio.com/try-twilio) for a Twilio Account. 
+2. Navigate to project/resources folder, and edit the config.js file.
+3. Enter your account's SID, AUTH TOKEN, and Phone Number (found on twilio's website under your account information).
 
-Updating Your Repository:
-- `git pull` will update your local repository to the current version.
-- `git stash` will save your changes if you made any after a new version was pushed.
+##Changing CSV Paths
+2. Navigate to project/resources folder, and edit the config.js file.
+2. Change the value of the "Alerts" path to the path of where your "morning" reminder csv will be.
+3. Change the value of the "Missed" path to the path of where your "nightly" missed trial csv will be.
+
+##CSV FORMATS
+- Reminders : Name, Phone, Trial Number, Date, Time, Location
+- Batch Sender : Name, Phone, Message 
+
+
 

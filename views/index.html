@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dane County Notifications</title>
+
+    <!-- Analytics APIs -->
+    <script type="text/javascript" src="/js/sql.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages': ['gauge', 'corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart(){
+            var runDay;
+            var runMissed;
+            var runErr;
+            var runTrend;
+
+            var sent4 = function(){
+                console.log(runTrend);
+            }
+
+            var sent3 = function(){
+                console.log(runErr);
+            }
+
+            var sent2 = function(){
+                console.log(runMissed);
+            }
+
+            var sent = function() {
+                console.log(runDay);
+            };
+
+                $.ajax({
+                    url : "http://localhost:3005/getDaySent",
+                    type : "get",
+                    datatype : "json",
+                    async : true,
+                    success : function(data){
+                        var temp = JSON.parse(data);
+                        runDay = temp.value;
+                        sent();                
+                    }
+            });
+                
+                $.ajax({
+                    url : "http://localhost:3005/getDayMiss",
+                    type : "get",
+                    async : false,
+                    datatype : "json",
+                    success : function(data2){
+                        var temp2 = JSON.parse(data2);
+                        runMissed = temp2.value;
+                        sent2();                
+                    }
+            });
+                
+                $.ajax({
+                    url : "http://localhost:3005/getDayErr",
+                    type : "get",
+                    async : false,
+                    datatype : "json",
+                    success : function(data3){
+                        var temp3 = JSON.parse(data3);
+                        runErr = temp3.errs;
+                        sent3();                
+                    }
+            });
+
+
+                $.ajax({
+                    url : "http://localhost:3005/getTrend",
+                    type : "get",
+                    async : false,
+                    datatype : "json",
+                    success : function(data4){
+                        var temp4 = JSON.parse(data4);
+                        runTrend = temp4;
+                        sent4();                
+                    }
+            });
+
+        var dataGauge = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Sent', runDay],
+        ]);
+
+        var dataGaugeMissed = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Missed', runMissed],
+        ]);
+
+        var dataGaugeError = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Error', runErr]
+        ]);
+
+        var optionsGauge = {
+          width: 250, height: 100,
+          redFrom: 0, redTo: 50,
+          yellowFrom: 50, yellowTo: 75,
+          greenFrom: 75, greenTo: 100,
+          minorTicks: 5, max: 100
+        };
+
+        var optionsGaugeError = {
+          width: 250, height: 100,
+          redFrom: 10, redTo: 15,
+          yellowFrom: 5, yellowTo: 10,
+          greenFrom: 0, greenTo: 5,
+          minorTicks: 5, max: 15
+        };
+
+        var optionsGaugeMissed = {
+          width: 250, height: 100,
+          redFrom: 30, redTo: 50,
+          yellowFrom: 15, yellowTo: 30,
+          greenFrom: 0, greenTo: 15,
+          minorTicks: 5, max: 50
+        };
+
+        var dataTrend = google.visualization.arrayToDataTable(runTrend);
+        var optionsTrend = {
+          legend: { position: 'top' },
+          width: 900,
+          height: 265
+        };
+
+        var dailyChart = new google.visualization.Gauge(document.getElementById('gauge_1'));
+        dailyChart.draw(dataGauge, optionsGauge);
+
+        var trendChart = new google.visualization.LineChart(document.getElementById('sent_trend'));
+        trendChart.draw(dataTrend, optionsTrend);
+
+        var dailyChart2 = new google.visualization.Gauge(document.getElementById('gauge_2'));
+        dailyChart2.draw(dataGaugeMissed, optionsGaugeMissed);
+
+        var dailyChart3 = new google.visualization.Gauge(document.getElementById('gauge_3'));
+        dailyChart3.draw(dataGaugeError, optionsGaugeError);
+      }
+    </script>
+
+    <!-- Stylesheets -->
+    <link href="/scripts/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hoover Family Foundation</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-flui">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <form name="message" action="/sendmessage" method="POST">
+          <h4>Message Sender</h4>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <label for="number">Phone</label>
+            <input type="text" class="form-control" name="number" placeholder="Number">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control" rows="2" name="message"></textarea>
+          </div>
+          <input type="submit" class="btn btn-default">
+        </form>
+        <br>
+        <form name="batch" action="/sendbatch" method="POST" enctype="multipart/form-data">
+          <h4>Batch Sender</h4>
+          <div class="form-group">
+            <label for="exampleInputFile">File Input</label>
+            <input type="file" name="filem">
+            <p class="help-block">CSV Format</p>
+          </div>
+            <input type="submit" class="btn btn-default">
+        </form>
+      </div>
+      <div class="row">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+
+          <div class="row placeholders">
+              <div class="col-xs-12 col-sm-4 placeholder" style="text-algin: left">
+              <div id="gauge_1" style="margin-left: 105px;"></div>
+              <h4>Messages Sent Today</h4>
+              <span class="text-muted">4/3/16</span>
+            </div>
+            <div class="col-xs-12 col-sm-4 placeholder">
+              <div id="gauge_2" style="margin-left: 105px;"></div>
+              <h4>Trials Missed Today</h4>
+              <span class="text-muted">4/3/16</span>
+            </div>
+            <div class="col-xs-12 col-sm-4 placeholder">
+              <div id="gauge_3" style="margin-left: 105px;"></div>
+              <h4>Messaging Errors Today</h4>
+              <span class="text-muted">4/3/16</span>
+            </div>
+          </div>
+
+          <h2 class="sub-header">Trending</h2>
+          <div class="col-xs-12" id="sent_trend" style="width: 800px; margin: 0 auto;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/scripts/js/bootstrap.min.js"></script>
+  </body>
+</html>
