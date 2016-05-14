@@ -1,8 +1,0 @@
-language: java
-jdk:
-- oraclejdk8
-env:
-  global:
-  - TWILIO_ACCOUNT_SID='ACb240eea77705027c434c3d52f60a2de1'
-  - TWILIO_AUTH_TOKEN='41c8c12299333a9a908b35add6245600'
-  - TWILIO_PHONE_NUMBER='+19206447038'
